@@ -50,6 +50,9 @@ return {
           winhighlight = "Normal:None,FloatBorder:None,EndOfBuffer:BlinkCmpDoc,NormalFloat:None",
         },
       },
+      ghost_text = {
+        enabled = vim.g.ai_cmp,
+      },
     },
     -- sources = {
     --   default = { "lsp", "path", "snippets", "buffer" },
