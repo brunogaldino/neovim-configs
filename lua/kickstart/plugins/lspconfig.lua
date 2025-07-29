@@ -300,6 +300,7 @@ return {
         'vtsls', -- Typescript code formatter
         'prettierd', -- Prettier Daemonized
         'eslint', -- Eslint LSP instead of eslint_d
+        'pyright', -- Python LSP
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
