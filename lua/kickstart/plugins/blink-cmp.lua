@@ -4,6 +4,7 @@ return {
     event = 'VimEnter',
     version = '1.*',
     dependencies = {
+      { 'onsails/lspkind.nvim' },
       -- Snippet Engine
       {
         'L3MON4D3/LuaSnip',
@@ -72,7 +73,44 @@ return {
       completion = {
         -- By default, you may press `<c-space>` to show the documentation.
         -- Optionally, set `auto_show = true` to show the documentation after a delay.
-        documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        menu = {
+          winhighlight = 'Normal:None,FloatBorder:None,CursorLine:CursorLine,Search:None',
+          border = 'rounded',
+          draw = {
+            treesitter = { 'lsp' },
+            columns = {
+              { 'label', gap = 1 },
+              { 'kind_icon', 'kind' },
+            },
+            components = {
+              kind_icon = {
+                text = function(item)
+                  local kind = require('lspkind').symbol_map[item.kind] or ''
+                  return kind .. ' '
+                end,
+              },
+              label = {
+                text = function(item)
+                  return item.label
+                end,
+              },
+              kind = {
+                text = function(item)
+                  return item.kind
+                end,
+              },
+            },
+          },
+        },
+        documentation = {
+          auto_show = false,
+          auto_show_delay_ms = 250,
+          treesitter_highlighting = true,
+          window = {
+            border = 'rounded',
+            winhighlight = 'Normal:None,FloatBorder:None,EndOfBuffer:BlinkCmpDoc,NormalFloat:None',
+          },
+        },
       },
 
       sources = {
@@ -83,18 +121,17 @@ return {
       },
 
       snippets = { preset = 'luasnip' },
-
-      -- Blink.cmp includes an optional, recommended rust fuzzy matcher,
-      -- which automatically downloads a prebuilt binary when enabled.
-      --
-      -- By default, we use the Lua implementation instead, but you may enable
-      -- the rust implementation via `'prefer_rust_with_warning'`
-      --
-      -- See :h blink-cmp-config-fuzzy for more information
-      fuzzy = { implementation = 'lua' },
+      fuzzy = { implementation = 'prefer_rust_with_warning' },
 
       -- Shows a signature help window while you type arguments for a function
-      signature = { enabled = true },
+      signature = {
+        enabled = true,
+        window = {
+          treesitter_highlighting = true,
+          border = 'rounded',
+          winhighlight = 'Normal:None,FloatBorder:None,EndOfBuffer:BlinkCmpDoc,NormalFloat:None',
+        },
+      },
     },
   },
 }

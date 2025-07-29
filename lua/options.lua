@@ -5,6 +5,7 @@
 
 -- Make line numbers default
 vim.o.number = true
+
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
 -- vim.o.relativenumber = true
@@ -70,5 +71,13 @@ vim.o.scrolloff = 10
 -- instead raise a dialog asking if you wish to save the current file(s)
 -- See `:help 'confirm'`
 vim.o.confirm = true
+
+-- vim.o.fillchars = 'eob: ,fold: ,foldopen:,foldsep: ,foldclose:'
+vim.o.foldcolumn = '1'
+vim.o.foldenable = true
+vim.o.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
+vim.o.foldmethod = 'expr'
 
 -- vim: ts=2 sts=2 sw=2 et
