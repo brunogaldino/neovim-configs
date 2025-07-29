@@ -1,3 +1,15 @@
+local function register_action(action)
+  vim.lsp.buf.code_action { apply = true, context = { only = { action }, diagnostics = {} } }
+end
+
+local function register_command(opts)
+  local params = {
+    command = opts.command,
+    arguments = opts.arguments,
+  }
+  vim.lsp.buf_request(0, 'workspace/executeCommand', params, opts.handler)
+end
+
 -- LSP Plugins
 return {
   {
@@ -216,6 +228,42 @@ return {
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
+
+        vtsls = {
+          settings = {
+            complete_function_calls = true,
+            vtsls = {
+              enableMoveToFileCodeAction = true,
+              autoUseWorkspaceTsdk = true,
+              experimental = {
+                maxInlayHintLength = 30,
+                completion = {
+                  enableServerSideFuzzyMatch = true,
+                },
+              },
+            },
+            typescript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              suggest = {
+                completeFunctionCalls = true,
+              },
+              inlayHints = {
+                enumMemberValues = { enabled = true },
+                functionLikeReturnTypes = { enabled = true },
+                parameterNames = { enabled = 'literals' },
+                parameterTypes = { enabled = true },
+                propertyDeclarationTypes = { enabled = true },
+                variableTypes = { enabled = false },
+              },
+            },
+          },
+          on_attach = function(client, bufnr)
+            vim.keymap.set('n', '<leader>co', function()
+              vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
+            end, { desc = 'LSP: [C]ode [O]rganize Imports' })
+            -- vim.keymap.set('n', 'gD', function() end, { desc = '[G]oto Source [D]efinition' })
+          end,
+        },
 
         lua_ls = {
           -- cmd = { ... },

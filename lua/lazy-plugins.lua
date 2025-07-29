@@ -34,8 +34,8 @@ require('lazy').setup({
   require 'kickstart.plugins.mini',
   require 'kickstart.plugins.treesitter',
 
-  require 'custom.plugins.snacks_picker',
-  require 'custom.plugins.lazygit',
+  require 'custom.plugins.snacks',
+  -- require 'custom.plugins.lazygit',
   require 'custom.plugins.colorscheme',
   require 'custom.plugins.persistence',
   require 'custom.plugins.bufferline',
