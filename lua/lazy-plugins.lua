@@ -40,6 +40,7 @@ require('lazy').setup({
   require 'custom.plugins.persistence',
   require 'custom.plugins.bufferline',
   require 'custom.plugins.go-nvim',
+  require 'custom.plugins.flash',
 
   -- require 'custom.autocmds'
 
