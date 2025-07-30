@@ -297,9 +297,17 @@ return {
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+
+        -- Typescript
         'vtsls', -- Typescript code formatter
         'prettierd', -- Prettier Daemonized
         'eslint', -- Eslint LSP instead of eslint_d
+
+        -- GO
+        'gofumpt', -- Auto formatter to be used with Conform
+        'goimports', -- Automatic import organizer
+
+        -- Python
         'pyright', -- Python LSP
       })
 

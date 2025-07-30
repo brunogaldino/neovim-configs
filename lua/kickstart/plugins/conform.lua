@@ -33,7 +33,7 @@ return {
         lua = { 'stylua' },
         javascript = { 'prettierd', 'prettier', stop_after_first = true },
         typescript = { 'prettierd', 'prettier', stop_after_first = true },
-        go = { 'gofumpt' },
+        go = { 'gofumpt', 'goimports' },
         python = { 'ruff' },
 
         -- Conform can also run multiple formatters sequentially
