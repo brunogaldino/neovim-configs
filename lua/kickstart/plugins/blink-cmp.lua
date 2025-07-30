@@ -1,7 +1,8 @@
 return {
   { -- Autocompletion
     'saghen/blink.cmp',
-    event = 'VimEnter',
+    lazy = true,
+    event = 'InsertEnter',
     version = '1.*',
     dependencies = {
       { 'onsails/lspkind.nvim' },

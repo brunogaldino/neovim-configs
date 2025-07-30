@@ -1,9 +1,13 @@
 return {
   'folke/snacks.nvim',
+  lazy = false,
+  priority = 1000,
   ---@type snacks.Config
   opts = {
     picker = {},
     lazygit = {},
+    bufdelete = {},
+    dashboard = {},
     terminal = {
       win = {
         input = {

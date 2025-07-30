@@ -10,15 +10,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- Automatically load last saved session from directory
-vim.api.nvim_create_autocmd('VimEnter', {
-  group = vim.api.nvim_create_augroup('restore_session', { clear = true }),
-  callback = function()
-    if vim.fn.getcwd() ~= vim.env.HOME then
-      require('persistence').load()
-    end
-  end,
-  nested = true,
-})
+-- vim.api.nvim_create_autocmd('VimEnter', {
+--   group = vim.api.nvim_create_augroup('restore_session', { clear = true }),
+--   callback = function()
+--     if vim.fn.getcwd() ~= vim.env.HOME then
+--       require('persistence').load()
+--     end
+--   end,
+--   nested = true,
+-- })
 
 -- Prefer LSP folding if client supports it
 vim.api.nvim_create_autocmd('LspAttach', {

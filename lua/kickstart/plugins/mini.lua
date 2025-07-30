@@ -24,6 +24,8 @@ vim.api.nvim_create_autocmd('User', {
 return {
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
+    lazy = true,
+    event = 'VeryLazy',
     config = function()
       -- Better Around/Inside textobjects
       --
@@ -48,6 +50,7 @@ return {
           go_in = 'L',
           go_in_plus = '<CR>',
           go_out = 'H',
+          synchronize = 'w',
         },
       }
 
