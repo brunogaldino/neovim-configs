@@ -1,3 +1,26 @@
+local show_dotfiles = true
+local filter_show = function(fs_entry)
+  return true
+end
+local filter_hide = function(fs_entry)
+  return not vim.startswith(fs_entry.name, '.')
+end
+
+local toggle_dotfiles = function()
+  show_dotfiles = not show_dotfiles
+  local new_filter = show_dotfiles and filter_show or filter_hide
+  MiniFiles.refresh { content = { filter = new_filter } }
+end
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'MiniFilesBufferCreate',
+  callback = function(args)
+    local buf_id = args.data.buf_id
+    -- Tweak left-hand side of mapping to your liking
+    vim.keymap.set('n', '<A-h>', toggle_dotfiles, { buffer = buf_id })
+  end,
+})
+
 return {
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
@@ -20,6 +43,26 @@ return {
       -- Ensure animations are smooth when scrolling
       require('mini.animate').setup()
 
+      require('mini.files').setup {
+        mappings = {
+          go_in = 'L',
+          go_in_plus = '<CR>',
+          go_out = 'H',
+        },
+      }
+
+      require('mini.surround').setup {
+        mappings = {
+          add = 'gsa', -- Add surrounding in Normal and Visual modes
+          delete = 'gsd', -- Delete surrounding
+          find = 'gsf', -- Find surrounding (to the right)
+          find_left = 'gsF', -- Find surrounding (to the left)
+          highlight = 'gsh', -- Highlight surrounding
+          replace = 'gsr', -- Replace surrounding
+          update_n_lines = 'gsn', -- Update `n_lines`
+        },
+      }
+
       -- Simple and easy statusline.
       --  You could remove this setup call if you don't like it,
       --  and try some other statusline plugin
@@ -40,4 +83,5 @@ return {
     end,
   },
 }
+
 -- vim: ts=2 sts=2 sw=2 et

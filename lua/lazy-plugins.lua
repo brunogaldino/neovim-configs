@@ -41,6 +41,10 @@ require('lazy').setup({
   require 'custom.plugins.bufferline',
   require 'custom.plugins.go-nvim',
   require 'custom.plugins.flash',
+  require 'custom.plugins.grug-far',
+  -- require 'custom.plugins.nvim-treesitter-context',
+  require 'custom.plugins.trouble',
+  require 'custom.plugins.virt-column',
 
   -- require 'custom.autocmds'
 

@@ -1,12 +1,18 @@
-local map = function(mode, keys, func, desc)
-  vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
-end
+-- local map = function(mode, keys, func, desc)
+--   vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+-- end
 
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set({ 'n', 't' }, '<C-;>', function()
+  Snacks.terminal.toggle()
+end, { desc = 'Open terminal' })
 
 -- Diagnostics
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 vim.keymap.set('n', '<leader>fn', ':enew<CR>', { desc = 'Create [F]ile [N]ew' })
+
+vim.keymap.set('n', '<leader>ll', ':Lazy<CR>', { desc = '[L]azy', silent = true })
+vim.keymap.set('n', '<leader>lm', ':Mason<CR>', { desc = '[M]azy', silent = true })
 
 -- use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
@@ -19,6 +25,14 @@ vim.keymap.set('n', '<leader>bd', ':bd<CR>', { desc = 'Close buffer', silent = t
 -- Window management
 vim.keymap.set('n', '<leader>|', ':vsplit<CR>', { desc = 'Split pane vertically', silent = true })
 vim.keymap.set('n', '<leader>_', ':split<CR>', { desc = 'Split pane horizontally', silent = true })
+
+-- File management
+vim.keymap.set('n', '-', function()
+  require('mini.files').open(vim.uv.cwd(), true)
+end, { desc = 'Open MiniFiles (CWD)', silent = true })
+vim.keymap.set('n', '_', function()
+  require('mini.files').open(vim.api.nvim_buf_get_name(0), true)
+end, { desc = 'Open MiniFiles (Current DIR)', silent = true })
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows

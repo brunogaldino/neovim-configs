@@ -4,6 +4,18 @@ return {
   opts = {
     picker = {},
     lazygit = {},
+    terminal = {
+      win = {
+        input = {
+          keys = {
+            ['<C-l>'] = { '<C-l>', expr = true, mode = { 'i', 'n' } }, -- Clear terminal
+          },
+        },
+        wo = {
+          winbar = '',
+        },
+      },
+    },
   },
   -- stylua: ignore
   keys = {
