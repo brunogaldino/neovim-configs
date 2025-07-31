@@ -112,6 +112,9 @@ return {
             winhighlight = 'Normal:None,FloatBorder:None,EndOfBuffer:BlinkCmpDoc,NormalFloat:None',
           },
         },
+        ghost_text = {
+          enabled = false,
+        },
       },
 
       sources = {

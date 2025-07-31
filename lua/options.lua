@@ -31,9 +31,9 @@ vim.o.swapfile = false -- creates a swapfile
 vim.o.termguicolors = true -- set term gui colors (most terminals support this)
 vim.o.inccommand = 'split' -- Preview substitutions live, as you type!
 vim.o.scrolloff = 10 -- Minimal number of screen lines to keep above and below the cursor.
-vim.o.tabstop = 2 -- Number of spaces a <Tab> in the file counts for
-vim.o.softtabstop = 2 -- Number of spaces a <Tab> counts for while editing
-vim.o.shiftwidth = 2 -- Size of an indent when using << or >>
+-- vim.o.tabstop = 2 -- Number of spaces a <Tab> in the file counts for
+-- vim.o.softtabstop = 2 -- Number of spaces a <Tab> counts for while editing
+-- vim.o.shiftwidth = 2 -- Size of an indent when using << or >>
 vim.o.expandtab = true -- Convert tabs to spaces
 vim.o.smarttab = true -- Use shiftwidth when inserting <Tab> at the start of a line
 vim.o.smartindent = true -- Smart autoindenting on new lines
@@ -51,7 +51,7 @@ vim.opt.listchars = {
   nbsp = '␣',
   extends = '›',
   precedes = '‹',
-  eol = '↴',
+  -- eol = '↴',
 }
 
 -- Sync clipboard between OS and Neovim.

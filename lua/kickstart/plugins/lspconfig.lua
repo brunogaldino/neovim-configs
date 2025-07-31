@@ -1,14 +1,14 @@
-local function register_action(action)
-  vim.lsp.buf.code_action { apply = true, context = { only = { action }, diagnostics = {} } }
-end
-
-local function register_command(opts)
-  local params = {
-    command = opts.command,
-    arguments = opts.arguments,
-  }
-  vim.lsp.buf_request(0, 'workspace/executeCommand', params, opts.handler)
-end
+-- local function register_action(action)
+--   vim.lsp.buf.code_action { apply = true, context = { only = { action }, diagnostics = {} } }
+-- end
+--
+-- local function register_command(opts)
+--   local params = {
+--     command = opts.command,
+--     arguments = opts.arguments,
+--   }
+--   vim.lsp.buf_request(0, 'workspace/executeCommand', params, opts.handler)
+-- end
 
 -- LSP Plugins
 return {
@@ -27,8 +27,8 @@ return {
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
-    lazy = true,
-    event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
+    event = { 'BufReadPre', 'BufWritePre', 'BufNewFile' },
+    -- event = 'VeryLazy',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
@@ -174,6 +174,8 @@ return {
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
+
+            vim.lsp.inlay_hint.enable(true)
           end
         end,
       })
@@ -229,8 +231,6 @@ return {
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-
         vtsls = {
           settings = {
             complete_function_calls = true,
@@ -255,22 +255,20 @@ return {
                 parameterNames = { enabled = 'literals' },
                 parameterTypes = { enabled = true },
                 propertyDeclarationTypes = { enabled = true },
-                variableTypes = { enabled = false },
+                variableTypes = { enabled = true },
+                includeInlayVariableTypeHints = { enabled = true },
               },
             },
           },
           on_attach = function(client, bufnr)
+            print 'ATTACHOU AQUI'
             vim.keymap.set('n', '<leader>co', function()
               vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
             end, { desc = 'LSP: [C]ode [O]rganize Imports' })
-            -- vim.keymap.set('n', 'gD', function() end, { desc = '[G]oto Source [D]efinition' })
           end,
         },
 
         lua_ls = {
-          -- cmd = { ... },
-          -- filetypes = { ... },
-          -- capabilities = {},
           settings = {
             Lua = {
               completion = {

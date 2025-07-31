@@ -6,13 +6,14 @@
 
 -- stylua: ignore
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<leader>fn', ':enew<CR>', { desc = 'Create [F]ile [N]ew' })
 vim.keymap.set({ 'n', 't' }, '<C-;>', function()
   Snacks.terminal.toggle()
 end, { desc = 'Open terminal' })
 
 -- Diagnostics
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-vim.keymap.set('n', '<leader>fn', ':enew<CR>', { desc = 'Create [F]ile [N]ew' })
+-- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+-- vim.keymap.set('n', '<C-,>', vim., { desc = 'Open diagnostic [Q]uickfix list' })
 
 vim.keymap.set('n', '<leader>ll', ':Lazy<CR>', { desc = '[L]azy', silent = true })
 vim.keymap.set('n', '<leader>lm', ':Mason<CR>', { desc = '[M]ason', silent = true })

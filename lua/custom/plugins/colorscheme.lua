@@ -2,7 +2,6 @@ return {
   {
     'sainnhe/gruvbox-material',
     enabled = true,
-    -- dependencies = { "saghen/blink.cmp" },
     priority = 1000,
     config = function()
       vim.g.gruvbox_material_transparent_background = 0
