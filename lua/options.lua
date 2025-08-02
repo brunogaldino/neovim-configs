@@ -73,6 +73,7 @@ vim.o.confirm = true
 vim.o.fillchars = 'eob: ,fold: ,foldopen:,foldsep: ,foldclose:'
 vim.o.foldenable = true
 vim.o.foldlevel = 99
+vim.o.foldlevelstart = 99
 vim.o.foldmethod = 'expr'
 vim.o.foldtext = ''
 vim.opt.foldcolumn = '0'

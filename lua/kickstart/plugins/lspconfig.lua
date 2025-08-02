@@ -206,12 +206,54 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
+        gopls = {
+          settings = {
+            gopls = {
+              gofumpt = true,
+              codelenses = {
+                gc_details = false,
+                generate = true,
+                regenerate_cgo = true,
+                run_govulncheck = true,
+                test = true,
+                tidy = true,
+                upgrade_dependency = true,
+                vendor = true,
+              },
+              hints = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeVariableTypes = true,
+              },
+              analyses = {
+                nilness = true,
+                unusedparams = true,
+                unusedwrite = true,
+                useany = true,
+              },
+              usePlaceholders = true,
+              completeUnimported = true,
+              staticcheck = true,
+              directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
+              semanticTokens = true,
+            },
+            --TODO: Check this out later
+            -- on_attach = function(client, _)
+            --   if client.name == 'gopls' and not client.server_capabilities.semanticTokensProvider then
+            --     local semantic = client.config.capabilities.textDocument.semanticTokens
+            --     client.server_capabilities.semanticTokensProvider = {
+            --       full = true,
+            --       legend = { tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes },
+            --       range = true,
+            --     }
+            --   end
+            -- end,
+          },
+        },
 
         vtsls = {
           settings = {
@@ -260,12 +302,6 @@ return {
             },
           },
         },
-
-        -- gopls = {
-        --   on_attach = function(_, _)
-        --     vim.keymap.set('n', '<leader>ct', ':GoAddTag<CR>', { desc = 'LSP: [C]ode Add [T]ags' })
-        --   end,
-        -- },
       }
 
       -- Ensure the servers and tools above are installed
@@ -286,11 +322,12 @@ return {
         'stylua', -- Used to format Lua code
 
         -- Typescript
-        'vtsls', -- Typescript code formatter
+        'vtsls', -- Typescript LSP wrapper around tl_ls
         'prettierd', -- Prettier Daemonized
         'eslint', -- Eslint LSP instead of eslint_d
 
         -- GO
+        'gopls', -- GO LSP
         'gofumpt', -- Auto formatter to be used with Conform
         'goimports', -- Automatic import organizer
         'golangci_lint_ls', -- More powerful linter for go
@@ -303,7 +340,7 @@ return {
 
       require('mason-lspconfig').setup {
         automatic_enable = {},
-        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer user: banking pass: kanastra@@25)
+        ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer
         automatic_installation = false,
       }
 
