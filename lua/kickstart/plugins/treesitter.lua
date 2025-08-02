@@ -18,6 +18,8 @@ return {
         'query',
         'vim',
         'vimdoc',
+        'javascript',
+        'typescript',
         'go',
         'gotmpl',
         'gomod',
