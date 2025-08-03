@@ -1,51 +1,49 @@
--- local map = function(mode, keys, func, desc)
---   vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
--- end
---
+-- stylua: ignore start
 
--- stylua: ignore
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-vim.keymap.set('n', '<leader>fn', ':enew<CR>', { desc = 'Create [F]ile [N]ew', silent = true })
-vim.keymap.set({ 'n', 't' }, '<C-;>', function()
-  Snacks.terminal.toggle()
-end, { desc = 'Open terminal' })
+local map = function(mode, keys, func, opts)
+  vim.keymap.set(mode, keys, func, opts)
+end
+
+map('n', '<Esc>', '<cmd>nohlsearch<CR>')
+map('n', '<leader>fn', ':enew<CR>', { desc = 'Create [F]ile [N]ew', silent = true })
+map({ 'n', 't' }, '<C-;>', function() Snacks.terminal.toggle() end, { desc = 'Open terminal' })
+map({ 'n', 'i' }, '<C-s>', function() vim.lsp.buf.signature_help { border = 'rounded', max_width = 120, max_height = 80 } end)
+map('n', 'K', function()
+  vim.lsp.buf.hover {
+    border = 'rounded',
+    max_height = 80,
+    max_width = 120,
+  }
+end, { desc = 'LSP Hover' })
 
 -- Diagnostics
 -- vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
-vim.keymap.set('n', '<leader>ll', ':Lazy<CR>', { desc = '[L]azy', silent = true })
-vim.keymap.set('n', '<leader>lm', ':Mason<CR>', { desc = '[M]ason', silent = true })
+map('n', '<leader>ll', ':Lazy<CR>', { desc = '[L]azy', silent = true })
+map('n', '<leader>lm', ':Mason<CR>', { desc = '[M]ason', silent = true })
 
 -- use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+map('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- Buffer navigation
-vim.keymap.set('n', '<S-h>', ':bprev<CR>', { desc = 'Previous buffer', silent = true })
-vim.keymap.set('n', '<S-l>', ':bnext<CR>', { desc = 'Next buffer', silent = true })
-vim.keymap.set('n', '<leader>bD', function()
-  Snacks.bufdelete.other()
-end, { desc = '[B]uffer [D]elete Others' })
-vim.keymap.set('n', '<leader>bd', function()
-  Snacks.bufdelete.delete()
-end, { desc = '[B]uffer [D]elete' })
+map('n', '<S-h>', ':bprev<CR>', { desc = 'Previous buffer', silent = true })
+map('n', '<S-l>', ':bnext<CR>', { desc = 'Next buffer', silent = true })
+map('n', '<leader>bD', function() Snacks.bufdelete.other() end, { desc = '[B]uffer [D]elete Others' })
+map('n', '<leader>bd', function() Snacks.bufdelete.delete() end, { desc = '[B]uffer [D]elete' })
 
 -- Window management
-vim.keymap.set('n', '<leader>|', ':vsplit<CR>', { desc = 'Split pane vertically', silent = true })
-vim.keymap.set('n', '<leader>_', ':split<CR>', { desc = 'Split pane horizontally', silent = true })
+map('n', '<leader>|', ':vsplit<CR>', { desc = 'Split pane vertically', silent = true })
+map('n', '<leader>_', ':split<CR>', { desc = 'Split pane horizontally', silent = true })
 
 -- File management
-vim.keymap.set('n', '-', function()
-  require('mini.files').open(vim.uv.cwd(), true)
-end, { desc = 'Open MiniFiles (CWD)', silent = true })
-vim.keymap.set('n', '_', function()
-  require('mini.files').open(vim.api.nvim_buf_get_name(0), true)
-end, { desc = 'Open MiniFiles (Current DIR)', silent = true })
+map('n', '-', function() require('mini.files').open(vim.uv.cwd(), true) end, { desc = 'Open MiniFiles (CWD)', silent = true })
+map('n', '_', function() require('mini.files').open(vim.api.nvim_buf_get_name(0), true) end, { desc = 'Open MiniFiles (Current DIR)', silent = true })
 
 -- Categories for which-key
-vim.keymap.set('n', '<leader>c', '', { desc = '[C]ode' })
-vim.keymap.set('n', '<leader>b', '', { desc = '[B]uffer' })
-vim.keymap.set('n', '<leader>g', '', { desc = '[G]it' })
-vim.keymap.set('n', '<leader>x', '', { desc = 'Diagnostics' })
+map('n', '<leader>c', '', { desc = '[C]ode' })
+map('n', '<leader>b', '', { desc = '[B]uffer' })
+map('n', '<leader>g', '', { desc = '[G]it' })
+map('n', '<leader>x', '', { desc = 'Diagnostics' })
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -62,4 +60,5 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
+-- stylua: ignore end
 -- vim: ts=2 sts=2 sw=2 et

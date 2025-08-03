@@ -81,4 +81,14 @@ vim.opt.foldcolumn = '0'
 -- Default to treesitter folding
 vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
+local sig_opts = {
+  border = 'rounded', -- or a custom array like { "╭","─","╮","│","╯","─","╰","│" }
+  max_width = 80,
+  -- optional tweaks:
+  focusable = false,
+  winblend = 0,
+  -- ensure the border uses the FloatBorder highlight
+  -- (neovim does this by default when you set border)
+}
+
 -- vim: ts=2 sts=2 sw=2 et

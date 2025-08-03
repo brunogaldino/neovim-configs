@@ -17,6 +17,11 @@ return {
       vim.g.gruvbox_material_better_performance = 1
 
       vim.cmd.colorscheme 'gruvbox-material'
+
+      vim.cmd [[
+      highlight! link NormalFloat GruvboxMaterialBackground
+      highlight! link FloatBorder GruvboxMaterialComment
+    ]]
     end,
   },
 }
