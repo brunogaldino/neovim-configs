@@ -1,3 +1,8 @@
+vim.cmd [[
+  highlight! link NormalFloat GruvboxMaterialBackground
+  highlight! link FloatBorder GruvboxMaterialComment
+]]
+
 return {
   {
     'nvim-neotest/neotest',
@@ -10,21 +15,32 @@ return {
     opts = {
       status = { virtual_text = true },
       output = { open_on_run = true },
+      -- quickfix = {
+      --   open = function()
+      --     vim.cmd 'Trouble quickfix'
+      --   end,
+      --   enabled = true,
+      -- },
+      floating = {
+        border = 'rounded',
+        max_height = 0.6,
+        max_width = 0.6,
+      },
     },
-    config = function()
-      require('neotest').setup {
+    config = function(_, opts)
+      require('neotest').setup(vim.tbl_deep_extend('force', opts, {
         adapters = {
           require 'neotest-jest' {
             jestCommand = 'npm test --',
             jestConfigFile = 'custom.jest.config.ts',
-            env = { CI = true },
+            env = { CI = true, FORCE_COLOR = '1' },
             cwd = function(_)
               return vim.fn.getcwd()
             end,
           },
           require 'neotest-golang',
         },
-      }
+      }))
     end,
   -- stylua: ignore
   keys = {

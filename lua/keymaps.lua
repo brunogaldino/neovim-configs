@@ -2,7 +2,6 @@
 --   vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
 -- end
 --
--- local Snacks = require 'snacks'
 
 -- stylua: ignore
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
@@ -41,6 +40,12 @@ end, { desc = 'Open MiniFiles (CWD)', silent = true })
 vim.keymap.set('n', '_', function()
   require('mini.files').open(vim.api.nvim_buf_get_name(0), true)
 end, { desc = 'Open MiniFiles (Current DIR)', silent = true })
+
+-- Categories for which-key
+vim.keymap.set('n', '<leader>c', '', { desc = '[C]ode' })
+vim.keymap.set('n', '<leader>b', '', { desc = '[B]uffer' })
+vim.keymap.set('n', '<leader>g', '', { desc = '[G]it' })
+vim.keymap.set('n', '<leader>x', '', { desc = 'Diagnostics' })
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows

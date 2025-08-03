@@ -9,6 +9,14 @@ return {
     bufdelete = {},
     notifier = {},
     dashboard = {},
+    indent_line = {
+      enabled = true,
+      animate = {
+        duration = {
+          step = 10,
+        },
+      },
+    },
     terminal = {
       win = {
         input = {
@@ -22,6 +30,9 @@ return {
       },
     },
   },
+  -- config = function()
+  --   Snacks.indent.enable()
+  -- end,
   -- stylua: ignore
   keys = {
     { '<leader>gg', function() Snacks.lazygit.open() end, { desc = 'Open Lazy[G]it' }},
