@@ -43,7 +43,7 @@ return {
       require('mini.surround').setup()
 
       -- Ensure animations are smooth when scrolling
-      require('mini.animate').setup()
+      -- require('mini.animate').setup()
 
       require('mini.files').setup {
         mappings = {

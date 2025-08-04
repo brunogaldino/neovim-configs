@@ -45,14 +45,14 @@ vim.opt.numberwidth = 4 -- Width of the number column
 --   See `:help lua-options`
 --   and `:help lua-options-guide`
 vim.o.list = true -- Sets how neovim will display certain whitespace characters in the editor.
-vim.opt.listchars = {
-  --   tab = '» ',
-  trail = '·',
-  --   nbsp = '␣',
-  --   extends = '›',
-  --   precedes = '‹',
-  --   -- eol = '↴',
-}
+-- vim.opt.listchars = {
+--   -- tab = '» ',
+--   trail = '·',
+--   --   nbsp = '␣',
+--   --   extends = '›',
+--   --   precedes = '‹',
+--   --   -- eol = '↴',
+-- }
 
 -- Sync clipboard between OS and Neovim.
 --  Schedule the setting after `UiEnter` because it can increase startup-time.

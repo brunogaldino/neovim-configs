@@ -51,7 +51,7 @@ Kickstart Guide:
       - Tutor
       - <enter key>
 
-    (If you already know the Neovim basics, you can skip this step.)
+   
 
   Once you've completed that, you can continue working through **AND READING** the rest
   of the kickstart init.lua.
@@ -100,7 +100,7 @@ require 'options'
 require 'keymaps'
 
 -- [[ Autocmds ]]
-require 'custom.autocmds'
+require 'autocmds'
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 require 'lazy-bootstrap'

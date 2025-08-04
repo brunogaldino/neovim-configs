@@ -20,6 +20,8 @@ return {
         'vimdoc',
         'javascript',
         'typescript',
+        'json',
+        'jsonc',
         'go',
         'gotmpl',
         'gomod',
