@@ -5,7 +5,7 @@ return {
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>f',
+        '<leader>cf',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
@@ -29,11 +29,18 @@ return {
           }
         end
       end,
+      formatters = {
+        golangci_lint = {
+          command = 'golangci-lint',
+          args = { 'run', '--fix', '--out-format=line-number' },
+          stdin = false,
+        },
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
         javascript = { 'prettierd', stop_after_first = true },
         typescript = { 'prettierd', stop_after_first = true },
-        go = { 'gofumpt', 'goimports' },
+        go = { 'golangci-lint' },
         -- python = { 'ruff' },
 
         -- Conform can also run multiple formatters sequentially

@@ -6,15 +6,17 @@ vim.cmd [[
 return {
   {
     'nvim-neotest/neotest',
-    -- event = 'LspAttach',
     dependencies = {
+      'antoinemadec/FixCursorHold.nvim',
+      'nvim-lua/plenary.nvim',
       'nvim-neotest/nvim-nio',
+      'nvim-treesitter/nvim-treesitter',
       'nvim-neotest/neotest-jest',
       { 'fredrikaverpil/neotest-golang', version = '*' },
     },
     opts = {
-      status = { virtual_text = true },
-      output = { open_on_run = true },
+      status = { virtual_text = false },
+      output = { open_on_run = false },
       -- quickfix = {
       --   open = function()
       --     vim.cmd 'Trouble quickfix'
@@ -28,17 +30,6 @@ return {
       },
     },
     config = function(_, opts)
-      local neotest_ns = vim.api.nvim_create_namespace 'neotest'
-      vim.diagnostic.config({
-        virtual_text = {
-          format = function(diagnostic)
-            -- Replace newline and tab characters with space for more compact diagnostics
-            local message = diagnostic.message:gsub('\n', ' '):gsub('\t', ' '):gsub('%s+', ' '):gsub('^%s+', '')
-            return message
-          end,
-        },
-      }, neotest_ns)
-
       require('neotest').setup(vim.tbl_deep_extend('force', opts, {
         adapters = {
           require 'neotest-jest' {
@@ -49,13 +40,16 @@ return {
               return vim.fn.getcwd()
             end,
           },
-          require 'neotest-golang',
+          require 'neotest-golang' {
+            runner = 'gotestsum',
+            env = { CI = 'true', FORCE_COLOR = '1' },
+          },
         },
       }))
     end,
   -- stylua: ignore
   keys = {
-    {"<leader>ct", "", desc = "[T]ests"},
+    {"<leader>t", "", desc = "[T]ests"},
     { "<leader>tt", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run File (Neotest)" },
     { "<leader>tT", function() require("neotest").run.run(vim.uv.cwd()) end, desc = "Run All Test Files (Neotest)" },
     { "<leader>tr", function() require("neotest").run.run() end, desc = "Run Nearest (Neotest)" },

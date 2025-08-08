@@ -25,12 +25,13 @@ map('n', '-', function() require('mini.files').open(vim.uv.cwd(), true) end, { d
 map('n', '_', function() require('mini.files').open(vim.api.nvim_buf_get_name(0), true) end, { desc = 'Open MiniFiles (Current DIR)', silent = true })
 
 -- Windows management
-map('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-map('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-map('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-map('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+map({'n', 't'}, '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
+map({'n', 't'}, '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
+map({'n', 't'}, '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
+map({'n', 't'}, '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Misc keybinds
+-- map('n', 'zz', ':w<CR>', { desc = 'Save Buffer'})
 map('n', '<Esc>', '<cmd>nohlsearch<CR>')
 map('n', '<leader>fn', ':enew<CR>', { desc = 'Create [F]ile [N]ew', silent = true })
 map({ 'n', 't' }, '<C-;>', function() Snacks.terminal.toggle() end, { desc = 'Open terminal' })
@@ -42,6 +43,8 @@ map('n', 'K', function()
     max_width = 120,
   }
 end, { desc = 'LSP Hover' })
+
+-- map({ 'n', 'v' }, '<leader>Ts', require('stay-centered').toggle, { desc = 'Toggle stay-centered.nvim' })
 
 -- Categories for which-key
 

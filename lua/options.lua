@@ -8,7 +8,7 @@ vim.g.loaded_netrwPlugin = 1 --  disable netrw
 
 -- Make line numbers default
 vim.o.number = true
-vim.o.relativenumber = true
+vim.o.relativenumber = false
 vim.o.mouse = 'a' -- Enable mouse mode, can be useful for resizing splits for example!
 vim.o.showmode = false -- Don't show the mode, since it's already in the status line
 vim.o.breakindent = true -- Enable break indent
@@ -39,6 +39,7 @@ vim.o.smarttab = true -- Use shiftwidth when inserting <Tab> at the start of a l
 vim.o.smartindent = true -- Smart autoindenting on new lines
 vim.o.autoindent = true -- Copy indent from current line when starting a new one
 vim.opt.numberwidth = 4 -- Width of the number column
+vim.opt.scrolloff = 999 -- Keep scroll in the middle of the screen
 
 --  Notice listchars is set using `vim.opt` instead of `vim.o`.
 --  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.

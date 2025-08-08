@@ -41,6 +41,19 @@ vim.api.nvim_create_autocmd('LspNotify', {
   end,
 })
 
+-- automatically load the coverage signs when opening a file
+local coverage_loaded = false
+vim.api.nvim_create_autocmd({ 'BufEnter' }, {
+  pattern = { '*.ts', '*.go' },
+  callback = function()
+    if coverage_loaded then
+      return
+    end
+    require('coverage').load(false)
+    coverage_loaded = true
+  end,
+})
+
 -- Open Trouble for neotest results automatically on failures
 -- vim.api.nvim_create_autocmd('User', {
 --   pattern = 'NeotestFinished',

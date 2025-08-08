@@ -9,6 +9,22 @@
 --   }
 --   vim.lsp.buf_request(0, 'workspace/executeCommand', params, opts.handler)
 -- end
+--
+
+local function lsp_organize_imports(bufnr)
+  local params = vim.lsp.util.make_range_params(nil, 'utf-8')
+  params.context = { only = { 'source.organizeImports' } }
+  local result = vim.lsp.buf_request_sync(bufnr, 'textDocument/codeAction', params, 1000)
+  for _, res in pairs(result or {}) do
+    for _, r in pairs(res.result or {}) do
+      if r.edit then
+        vim.lsp.util.apply_workspace_edit(r.edit, 'utf-8')
+      else
+        vim.lsp.buf.execute_command(r.command)
+      end
+    end
+  end
+end
 
 -- LSP Plugins
 return {
@@ -176,7 +192,6 @@ return {
             [vim.diagnostic.severity.HINT] = '󰌶 ',
           },
         } or {},
-        virtual_text = false, -- Since i'm using tiny-inline, that plugin is managing it
         -- virtual_text = {
         --   source = 'if_many',
         --   spacing = 2,
@@ -208,8 +223,6 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        golangci_lint_ls = {},
-
         gopls = {
           settings = {
             gopls = {
@@ -236,27 +249,34 @@ return {
               analyses = {
                 nilness = true,
                 unusedparams = true,
+                shadow = true,
                 unusedwrite = true,
                 useany = true,
               },
               usePlaceholders = true,
               completeUnimported = true,
               staticcheck = true,
-              directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules' },
+              directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules', '-scripts', '-infrastructure' },
               semanticTokens = true,
             },
-            --TODO: Check this out later
-            -- on_attach = function(client, _)
-            --   if client.name == 'gopls' and not client.server_capabilities.semanticTokensProvider then
-            --     local semantic = client.config.capabilities.textDocument.semanticTokens
-            --     client.server_capabilities.semanticTokensProvider = {
-            --       full = true,
-            --       legend = { tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes },
-            --       range = true,
-            --     }
-            --   end
-            -- end,
           },
+          on_attach = function(_, _)
+            vim.keymap.set('n', '<leader>ct', '', { desc = '[C]ode [T]ags' })
+            vim.keymap.set('n', '<leader>cta', function()
+              local tags = vim.fn.input('Enter tags (e.g. json xml): ', 'json')
+              if tags ~= '' then
+                vim.cmd('GoAddTags ' .. tags)
+              end
+            end, { desc = 'LSP: [C]ode [T]ags, [A]dd' })
+            vim.keymap.set('n', '<leader>ctr', ':GoRemoveTags<CR>', { desc = 'LSP: [C]ode [T]ags, [R]emove' })
+
+            vim.api.nvim_create_autocmd('BufWritePre', {
+              buffer = bufnr,
+              callback = function()
+                lsp_organize_imports()
+              end,
+            })
+          end,
         },
 
         vtsls = {
@@ -284,14 +304,21 @@ return {
                 parameterTypes = { enabled = true },
                 propertyDeclarationTypes = { enabled = true },
                 variableTypes = { enabled = true },
-                includeInlayVariableTypeHints = { enabled = true },
+                includeInlayVariableTypeHints = { enable = true },
               },
             },
           },
           on_attach = function(_, _)
-            vim.keymap.set('n', '<leader>co', function()
-              vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
-            end, { desc = 'LSP: [C]ode [O]rganize Imports' })
+            vim.api.nvim_create_autocm('BufWritePre', {
+              buffer = bufnr,
+              callback = function()
+                lsp_organize_imports()
+              end,
+            })
+
+            -- vim.keymap.set('n', '<leader>co', function()
+            --   vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
+            -- end, { desc = 'LSP: [C]ode [O]rganize Imports' })
           end,
         },
 
@@ -332,9 +359,11 @@ return {
 
         -- GO
         'gopls', -- GO LSP
-        'gofumpt', -- Auto formatter to be used with Conform
-        'goimports', -- Automatic import organizer
-        'golangci_lint_ls', -- More powerful linter for go as LSP
+        -- 'gofumpt', -- Auto formatter to be used with Conform
+        -- 'goimports', -- Automatic import organizer
+        'golangci-lint',
+        'gotestsum', -- Improve readability on go test output
+        'gomodifytags', -- Automatic add json tags to structs
 
         -- Python
         'pyright', -- Python LSP
