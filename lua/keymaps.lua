@@ -25,10 +25,10 @@ map('n', '-', function() require('mini.files').open(vim.uv.cwd(), true) end, { d
 map('n', '_', function() require('mini.files').open(vim.api.nvim_buf_get_name(0), true) end, { desc = 'Open MiniFiles (Current DIR)', silent = true })
 
 -- Windows management
-map({'n', 't'}, '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-map({'n', 't'}, '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-map({'n', 't'}, '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-map({'n', 't'}, '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+map({'n', 't'}, '<C-h>', '<C-\\><C-n><C-w><C-h>', { desc = 'Move focus to the left window' })
+map({'n', 't'}, '<C-l>', '<C-\\><C-n><C-w><C-l>', { desc = 'Move focus to the right window' })
+map({'n', 't'}, '<C-j>', '<C-\\><C-n><C-w><C-j>', { desc = 'Move focus to the lower window' })
+map({'n', 't'}, '<C-k>', '<C-\\><C-n><C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- Misc keybinds
 -- map('n', 'zz', ':w<CR>', { desc = 'Save Buffer'})

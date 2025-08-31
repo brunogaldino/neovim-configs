@@ -1,16 +1,3 @@
--- local function register_action(action)
---   vim.lsp.buf.code_action { apply = true, context = { only = { action }, diagnostics = {} } }
--- end
---
--- local function register_command(opts)
---   local params = {
---     command = opts.command,
---     arguments = opts.arguments,
---   }
---   vim.lsp.buf_request(0, 'workspace/executeCommand', params, opts.handler)
--- end
---
-
 local function lsp_organize_imports(bufnr)
   local params = vim.lsp.util.make_range_params(nil, 'utf-8')
   params.context = { only = { 'source.organizeImports' } }
@@ -20,7 +7,7 @@ local function lsp_organize_imports(bufnr)
       if r.edit then
         vim.lsp.util.apply_workspace_edit(r.edit, 'utf-8')
       else
-        vim.lsp.buf.execute_command(r.command)
+        vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
       end
     end
   end
@@ -61,36 +48,6 @@ return {
       'saghen/blink.cmp',
     },
     config = function()
-      -- Brief aside: **What is LSP?**
-      --
-      -- LSP is an initialism you've probably heard, but might not understand what it is.
-      --
-      -- LSP stands for Language Server Protocol. It's a protocol that helps editors
-      -- and language tooling communicate in a standardized fashion.
-      --
-      -- In general, you have a "server" which is some tool built to understand a particular
-      -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
-      -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
-      -- processes that communicate with some "client" - in this case, Neovim!
-      --
-      -- LSP provides Neovim with features like:
-      --  - Go to definition
-      --  - Find references
-      --  - Autocompletion
-      --  - Symbol Search
-      --  - and more!
-      --
-      -- Thus, Language Servers are external tools that must be installed separately from
-      -- Neovim. This is where `mason` and related plugins come into play.
-      --
-      -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-      -- and elegantly composed help section, `:help lsp-vs-treesitter`
-
-      --  This function gets run when an LSP attaches to a particular buffer.
-      --    That is to say, every time a new file is opened that is associated with
-      --    an lsp (for example, opening `main.rs` is associated with `rust_analyzer`) this
-      --    function will be executed to configure the current buffer
-
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
         callback = function(event)
@@ -249,18 +206,18 @@ return {
               analyses = {
                 nilness = true,
                 unusedparams = true,
-                shadow = true,
+                shadow = false,
                 unusedwrite = true,
                 useany = true,
               },
               usePlaceholders = true,
               completeUnimported = true,
-              staticcheck = true,
+              staticcheck = nil,
               directoryFilters = { '-.git', '-.vscode', '-.idea', '-.vscode-test', '-node_modules', '-scripts', '-infrastructure' },
               semanticTokens = true,
             },
           },
-          on_attach = function(_, _)
+          on_attach = function(_, bufnr)
             vim.keymap.set('n', '<leader>ct', '', { desc = '[C]ode [T]ags' })
             vim.keymap.set('n', '<leader>cta', function()
               local tags = vim.fn.input('Enter tags (e.g. json xml): ', 'json')
@@ -269,11 +226,13 @@ return {
               end
             end, { desc = 'LSP: [C]ode [T]ags, [A]dd' })
             vim.keymap.set('n', '<leader>ctr', ':GoRemoveTags<CR>', { desc = 'LSP: [C]ode [T]ags, [R]emove' })
+            vim.keymap.set('n', '<leader>co', function()
+              vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
+            end, { desc = 'LSP: [C]ode [O]rganize Imports' })
 
             vim.api.nvim_create_autocmd('BufWritePre', {
-              buffer = bufnr,
               callback = function()
-                lsp_organize_imports()
+                -- lsp_organize_imports(bufnr)
               end,
             })
           end,
@@ -281,7 +240,6 @@ return {
 
         vtsls = {
           settings = {
-            complete_function_calls = true,
             vtsls = {
               enableMoveToFileCodeAction = true,
               autoUseWorkspaceTsdk = true,
@@ -297,6 +255,10 @@ return {
               suggest = {
                 completeFunctionCalls = true,
               },
+              preferences = {
+                importModuleSpecifier = 'non-relative',
+                quoteStyle = 'single',
+              },
               inlayHints = {
                 enumMemberValues = { enabled = true },
                 functionLikeReturnTypes = { enabled = true },
@@ -308,17 +270,16 @@ return {
               },
             },
           },
-          on_attach = function(_, _)
-            vim.api.nvim_create_autocm('BufWritePre', {
-              buffer = bufnr,
-              callback = function()
-                lsp_organize_imports()
-              end,
-            })
+          on_attach = function(_, bufnr)
+            vim.keymap.set('n', '<leader>co', function()
+              vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
+            end, { desc = 'LSP: [C]ode [O]rganize Imports' })
 
-            -- vim.keymap.set('n', '<leader>co', function()
-            --   vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
-            -- end, { desc = 'LSP: [C]ode [O]rganize Imports' })
+            -- vim.api.nvim_create_autocmd('BufWritePre', {
+            --   callback = function()
+            --     lsp_organize_imports(bufnr)
+            --   end,
+            -- })
           end,
         },
 
@@ -377,10 +338,12 @@ return {
         automatic_installation = false,
       }
 
-      local lspconfig = require 'lspconfig'
+      -- local lspconfig = require 'lspconfig'
       for server_name, config in pairs(servers) do
         config.capabilities = vim.tbl_deep_extend('force', {}, capabilities, config.capabilities or {})
-        lspconfig[server_name].setup(config)
+        -- lspconfig[server_name].setup(config)
+        vim.lsp.config(server_name, config)
+        vim.lsp.enable(server_name)
       end
     end,
   },

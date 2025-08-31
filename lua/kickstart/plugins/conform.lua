@@ -40,7 +40,7 @@ return {
         lua = { 'stylua' },
         javascript = { 'prettierd', stop_after_first = true },
         typescript = { 'prettierd', stop_after_first = true },
-        go = { 'golangci-lint' },
+        -- go = { 'golangci-lint' },
         -- python = { 'ruff' },
 
         -- Conform can also run multiple formatters sequentially
