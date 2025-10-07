@@ -21,7 +21,7 @@ return {
       win = {
         input = {
           keys = {
-            ['<C-l>'] = { '<C-l>', expr = true, mode = { 'i', 'n' } }, -- Clear terminal
+            ['<C-S-l>'] = { '<C-l>', expr = true, mode = { 'i', 'n' } }, -- Clear terminal
           },
         },
         wo = {

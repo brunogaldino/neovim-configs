@@ -2,8 +2,9 @@ return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     event = { 'BufReadPre', 'BufWritePre', 'BufNewFile' },
+    branch = 'main',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    -- main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = {
@@ -27,6 +28,7 @@ return {
         'gomod',
         'gowork',
         'gosum',
+        'yaml',
       },
       -- Autoinstall languages that are not installed
       auto_install = true,
