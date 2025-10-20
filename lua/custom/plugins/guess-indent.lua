@@ -1,5 +1,7 @@
 return {
   'nmac427/guess-indent.nvim',
-  opts = {},
+  opts = {
+    auto_cmd = true,
+  },
   event = { 'BufReadPost', 'BufWritePost', 'BufNewFile' },
 }

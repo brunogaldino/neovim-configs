@@ -275,11 +275,9 @@ return {
               vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
             end, { desc = 'LSP: [C]ode [O]rganize Imports' })
 
-            -- vim.api.nvim_create_autocmd('BufWritePre', {
-            --   callback = function()
-            --     lsp_organize_imports(bufnr)
-            --   end,
-            -- })
+            vim.keymap.set('n', '<leader>cM', function()
+              vim.lsp.buf.code_action { apply = true, context = { only = { 'source.addMissingImports.ts' }, diagnostics = {} } }
+            end, { desc = 'LSP: [C]ode add [M]issing imports' })
           end,
         },
 
