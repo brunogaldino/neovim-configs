@@ -14,6 +14,7 @@ return {
         'c',
         'css',
         'diff',
+        'dockerfile',
         'go',
         'gomod',
         'gowork',
@@ -28,6 +29,7 @@ return {
         'lua',
         'luadoc',
         'luap',
+        'make',
         'markdown',
         'markdown_inline',
         'python',
@@ -38,7 +40,6 @@ return {
         'vim',
         'vimdoc',
         'yaml',
-        'ruby',
       },
     },
     config = function(_, opts)

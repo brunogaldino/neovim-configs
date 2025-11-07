@@ -230,11 +230,11 @@ return {
               vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
             end, { desc = 'LSP: [C]ode [O]rganize Imports' })
 
-            vim.api.nvim_create_autocmd('BufWritePre', {
-              callback = function()
-                -- lsp_organize_imports(bufnr)
-              end,
-            })
+            -- vim.api.nvim_create_autocmd('BufWritePre', {
+            --   callback = function()
+            --     -- lsp_organize_imports(bufnr)
+            --   end,
+            -- })
           end,
         },
 
@@ -280,6 +280,8 @@ return {
             end, { desc = 'LSP: [C]ode add [M]issing imports' })
           end,
         },
+
+        eslint = {},
 
         yamlls = {
           -- Have to add this for yamlls to understand that we support line folding
