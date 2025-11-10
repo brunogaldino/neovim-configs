@@ -41,6 +41,7 @@ return {
         'vimdoc',
         'yaml',
       },
+      indent = false,
     },
     config = function(_, opts)
       -- install parsers from custom opts.ensure_installed

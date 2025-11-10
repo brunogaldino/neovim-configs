@@ -1,16 +1,10 @@
-local function lsp_organize_imports(bufnr)
-  local params = vim.lsp.util.make_range_params(nil, 'utf-8')
-  params.context = { only = { 'source.organizeImports' } }
-  local result = vim.lsp.buf_request_sync(bufnr, 'textDocument/codeAction', params, 1000)
-  for _, res in pairs(result or {}) do
-    for _, r in pairs(res.result or {}) do
-      if r.edit then
-        vim.lsp.util.apply_workspace_edit(r.edit, 'utf-8')
-      else
-        vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
-      end
+function _G.lsp_execute_command(cmd, args)
+  local params = { command = cmd, arguments = args }
+  vim.lsp.buf_request(0, 'workspace/executeCommand', params, function(err)
+    if err then
+      vim.notify('LSP command error: ' .. err.message, vim.log.levels.ERROR)
     end
-  end
+  end)
 end
 
 -- LSP Plugins
@@ -270,10 +264,10 @@ return {
               },
             },
           },
-          on_attach = function(_, bufnr)
+          on_attach = function(_, _)
             vim.keymap.set('n', '<leader>co', function()
-              vim.lsp.buf.code_action { apply = true, context = { only = { 'source.organizeImports' }, diagnostics = {} } }
-            end, { desc = 'LSP: [C]ode [O]rganize Imports' })
+              lsp_execute_command('typescript.organizeImports', { vim.fn.expand '%:p' })
+            end, { desc = 'Organize Imports' })
 
             vim.keymap.set('n', '<leader>cM', function()
               vim.lsp.buf.code_action { apply = true, context = { only = { 'source.addMissingImports.ts' }, diagnostics = {} } }

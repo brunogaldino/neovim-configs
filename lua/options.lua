@@ -75,12 +75,13 @@ vim.o.fillchars = 'eob: ,fold: ,foldopen:,foldsep: ,foldclose:'
 vim.o.foldenable = true
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
-vim.o.foldmethod = 'expr'
+vim.o.foldmethod = 'indent'
 vim.o.foldtext = ''
 vim.opt.foldcolumn = '0'
 
 -- Default to treesitter folding
-vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+-- vim.o.foldmethod = 'expr'
+-- vim.o.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 local sig_opts = {
   border = 'rounded', -- or a custom array like { "╭","─","╮","│","╯","─","╰","│" }
