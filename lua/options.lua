@@ -75,9 +75,9 @@ vim.o.fillchars = 'eob: ,fold: ,foldopen:,foldsep: ,foldclose:'
 vim.o.foldenable = true
 vim.o.foldlevel = 99
 vim.o.foldlevelstart = 99
-vim.o.foldmethod = 'indent'
-vim.o.foldtext = ''
-vim.opt.foldcolumn = '0'
+-- vim.o.foldmethod = 'indent'
+-- vim.o.foldtext = ''
+-- vim.opt.foldcolumn = '0'
 
 -- Default to treesitter folding
 -- vim.o.foldmethod = 'expr'

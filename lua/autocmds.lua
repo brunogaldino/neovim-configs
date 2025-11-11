@@ -21,17 +21,17 @@ vim.api.nvim_create_autocmd('VimEnter', {
   --   nested = true,
 })
 
--- Prefer LSP folding if client supports it
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-
-    if client:supports_method 'textDocument/foldingRange' then
-      local win = vim.api.nvim_get_current_win()
-      vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
-    end
-  end,
-})
+-- -- Prefer LSP folding if client supports it
+-- vim.api.nvim_create_autocmd('LspAttach', {
+--   desc = 'User: Set LSP folding if client supports it',
+--   callback = function(ctx)
+--     local client = assert(vim.lsp.get_client_by_id(ctx.data.client_id))
+--     if client:supports_method 'textDocument/foldingRange' then
+--       local win = vim.api.nvim_get_current_win()
+--       vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
+--     end
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd('LspNotify', {
   callback = function(args)
